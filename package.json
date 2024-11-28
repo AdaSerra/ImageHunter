@@ -1,10 +1,11 @@
 {
-  "name": "find_images",
+  "name": "image_hunter",
   "version": "1.0.0",
-  "description": "Addon for founding images in a webpage",
+  "description": "Addon for founding images in a webpage, save, download metadata, search similar images and more",
   "main": "webpack.config.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "firefox": "web-ext run --verbose --bc"
   },
   "keywords": [
     "firefox",
@@ -26,8 +27,10 @@
     "@babel/preset-react": "^7.25.9",
     "babel-loader": "^9.2.1",
     "copy-webpack-plugin": "^12.0.2",
+    "css-loader": "^7.1.2",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.6.3",
+    "style-loader": "^4.0.0",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4"
   },

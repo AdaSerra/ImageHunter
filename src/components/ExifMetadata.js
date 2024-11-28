@@ -3,6 +3,7 @@ import {Modal,Button, Tooltip} from 'antd'
 import { FileSearchOutlined, SaveOutlined, CloseOutlined } from '@ant-design/icons';
 const ExifReader = require('exifreader');
 import {saveReport} from '../utils/click.js'
+import {fileName} from  '../utils/generic.js'
 
 export default function ExifMetadata(prop) {
 
@@ -26,7 +27,10 @@ export default function ExifMetadata(prop) {
       setIsModalOpen(defState);
     };
   
-  
+    const report = {
+      file: fileName(url),
+      metadata:isModalOpen.content
+    }
   
     async function exifData(url) {
       try { 
@@ -45,8 +49,8 @@ export default function ExifMetadata(prop) {
     }
     return ( <> 
     <Button icon={<FileSearchOutlined /> } onClick={showModal} variant="solid" color="default"/>
-    <Modal className="exif" title={"EXIF Metadata of: "+url.slice(0,40)} open={isModalOpen.open} onOk={handleOk} onCancel={handleCancel} getContainer={()=>document.getElementById('root')} zIndex={1100} closable={false}style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} footer={[
-      <Tooltip title='Save Report'><Button type='primary' className="customButton" icon={<SaveOutlined/>}onClick={()=>saveReport(isModalOpen.content,'ExifMetadata.json')}></Button></Tooltip>,
+    <Modal className="exif" title={"EXIF Metadata of: "+fileName(url).slice(0,30)} open={isModalOpen.open} onOk={handleOk} onCancel={handleCancel} getContainer={()=>document.getElementById('root')} zIndex={1100} closable={false}style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', overflowX: 'hidden' }} footer={[
+      <Tooltip title='Save Report'><Button type='primary' className="customButton" icon={<SaveOutlined/>}onClick={()=>saveReport(report,'ExifMetadata.json')}></Button></Tooltip>,
       <Button type='primary' className="customButton" icon={<CloseOutlined/>}onClick={()=>setIsModalOpen(pre=>({...pre,open:false}))}></Button>
     ]}> 
       {isModalOpen.content ?

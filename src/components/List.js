@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {Image,Button,Tooltip} from 'antd'
 import {CopyOutlined,SnippetsOutlined,DownloadOutlined,CheckCircleFilled,CheckCircleOutlined,SearchOutlined,QuestionCircleOutlined} from '@ant-design/icons'
 import {copyImg,copyText,saveFile,searchLink} from '../utils/click.js'
-import {shortUrl} from '../utils/generic.js'
+import {shortUrl,fileName} from '../utils/generic.js'
 import ExifMetadata from './ExifMetadata.js'
 import ImgDesc from './ImgDesc.js'
 
@@ -46,10 +46,12 @@ export default function List(props) {
            
            </div> ),
            imageRender:(originalNode,info) => (
-            <>
-            {currentList?.[info.current]?.alt?.length <40 ? 
-            <div className="customTitle"> {currentList?.[info.current]?.alt} </div> :
-            <div className="customTitle"><Tooltip title={currentList?.[info.current]?.alt}>{shortUrl(currentList[info.current].alt)}... </Tooltip></div>}
+            <><div className="customTitle">
+            <div >{shortUrl(fileName(currentList[info.current].src))}</div>
+            {currentList[info.current].alt?.length <40 ? 
+            <div > {currentList[info.current].alt} </div> :
+            <div ><Tooltip title={currentList[info.current].alt}>{shortUrl(currentList[info.current].alt)}... </Tooltip></div>
+            }</div>
             {originalNode}     
             </>
            )                       

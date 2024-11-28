@@ -9,7 +9,7 @@ import SummaryDesc from './components/SummaryDesc.js'
 import List from './components/List.js'
 import ButtonBox from './components/ButtonBox.js'
 import FilterStats from './components/FilterStats.js'
- 
+import './css/popup.css'
 message.config({maxCount:1})
 
 //main component
@@ -134,36 +134,7 @@ function App() {
     filterDati = option.size == 1024 || option.size ==1024*1024 || option.size ==1024*1024*1024 ? filterDati :
     filterDati.filter(obj => {const pfIsNumber = typeof obj.pfSize =='number' && obj.pfSize<option.size; const bcIsNumber = typeof obj.backSize == 'number' && obj.backSize < option.size; const blIsNumber = typeof obj.blobSize == 'number' && obj.blobSize < option.size; return pfIsNumber || bcIsNumber || blIsNumber})
   
-
-  // some stats
-
-  let sizeTotal= dati.reduce((accumulutar,currentValue)=>{
-    if(Number(currentValue.backSize)|| Number(currentValue.pfSize)) {
-      accumulutar.sum= accumulutar.sum + Number(currentValue.backSize || currentValue.pfSize)
-      accumulutar.count +=1
-    }
-    
-    return accumulutar},{sum:0,count:0})
-
-    let sizeTotalFilter= filterDati?.reduce((accumulutar,currentValue)=>{
-      if(Number(currentValue.backSize)|| Number(currentValue.pfSize)) {
-        accumulutar.sum= accumulutar.sum + Number(currentValue.backSize || currentValue.pfSize)
-        accumulutar.count +=1
-      }
-      
-      return accumulutar},{sum:0,count:0})
   
-
-
-    let avgLoading= dati.reduce((accumulutar,currentValue)=>{
-      if(Number(currentValue.backDuration) && currentValue.backDuration < 1000_000) {
-        accumulutar.sum+=currentValue.backDuration;
-        accumulutar.count +=1
-      }
-      
-      return accumulutar},{sum:0,count:0})
-
-   
     setList({
       pageInfo:{
         title:imgs.title,
@@ -176,14 +147,7 @@ function App() {
       },
       unfiltred:dati,
       filtred:filterDati,
-      stats:{
-        imgTotal:imgs.imgs.length,
-        imgUnique:dati.length,
-        imgFilter:filterDati.length,
-        sizeTotal:sizeTotal,
-        sizeTotalFilter:sizeTotalFilter,
-        avgLoading:avgLoading
-    }});
+     });
       
       setLoading(false)
       
@@ -262,21 +226,21 @@ function App() {
       {contextHolder}
      
         <div className="summary">
-          <Summary total={list?.stats?.imgTotal} unique={list?.stats?.imgUnique}/>
+          <Summary total={imgs?.imgs.length} unique={list?.unfiltred?.length}/>
           <div className="buttonBox">
             <div className='left'> <Button type="primary"  onClick={()=>{setLoading(true);sendMessage('start')}} block={true} loading={loading}danger>{loading? "Loading":"Analyze"}</Button></div>
             <div className='right'> <Button type="primary"   block={true}disabled={list?false:true } onClick={list?()=>setShow(prevValue=>!prevValue):null}>{show? "Hide" : "Show"} </Button></div>
           </div>
 
        {show && <>
-        <SummaryDesc sizeTotal={list?.stats.sizeTotal|| {sum:0,count:0} } avgLoading={list?.stats.avgLoading|| {sum:0,count:0}} pageInfo={list?.pageInfo || {title:"",url:"",size:0,time:0} }/>
+        <SummaryDesc sizeTotal={sizeTotal|| {sum:0,count:0} } avgLoading={avgLoading|| {sum:0,count:0}} pageInfo={list?.pageInfo || {title:"",url:"",size:0,time:0} }/>
         <div className="buttonBox">
         <ButtonBox toggle={toggle} checkAll={checkAll} list={list?.filtred || []} pageInfo={list?.pageInfo || {title:"",url:"",size:0,time:0}}/></div> </> }
         </div>
         {show  && list?.filtred &&
         <div id="list"><List dati={list?.filtred} engine={option.engine} updateChecked={changeChecked} messageApi={messageApi}/></div>}
         {show &&
-        <FilterStats len={list.stats.imgFilter ||0 } sizeFilter={list.stats.sizeTotalFilter || {sum:0,count:0}} sizeChecked={sizeTotalChecked}/>}
+        <FilterStats len={list?.filtred?.length ||0 } sizeFilter={sizeTotalFilter || {sum:0,count:0}} sizeChecked={sizeTotalChecked}/>}
        
       </ConfigProvider>
     )

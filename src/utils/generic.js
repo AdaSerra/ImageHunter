@@ -83,4 +83,10 @@ function shortUrl(url) {
   else { return ""}
 }
 
-export {regex,convertBytes,shortExt,checkBackground,checkType,correctUrl,shortUrl}
+
+function fileName(url) { 
+  if (url.startsWith('http'))
+   {return url.substring(url.lastIndexOf('/') + 1); }
+  else {return "base64 string"}
+}
+export {regex,convertBytes,shortExt,checkBackground,checkType,correctUrl,shortUrl,fileName}

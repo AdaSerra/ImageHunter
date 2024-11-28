@@ -1,7 +1,7 @@
 
 import React, {useState,useEffect} from 'react'
 import ReactDOM from 'react-dom/client'
-import { Checkbox, Divider,Slider,Switch,Radio,Button,ConfigProvider } from 'antd';
+import { Checkbox, Divider,Slider,Switch,Radio,Button,ConfigProvider,message } from 'antd';
 import {defaultOption,getOption,searchEngines} from './utils/storage.js'
 
 const units = ["Bytes","Kilobytes","Megabytes"];
@@ -11,8 +11,9 @@ const units = ["Bytes","Kilobytes","Megabytes"];
 
 const App = ()=> {
 
-
   const [option,setOption] = useState()
+
+  const [messageApi, contextHolder] = message.useMessage();
 
  useEffect(()=>{
     async function fetchData() {
@@ -21,9 +22,7 @@ const App = ()=> {
     };
     fetchData()
     
-    
   },[])
-
  
   const handleOption = ( value,key) => {
     setOption(prevValue => ({...prevValue, [key]:value}))
@@ -33,24 +32,30 @@ const App = ()=> {
    const saveOption = () =>{
      setOption(option)
     browser.storage.sync.set({option:JSON.stringify(option)});
-   
-    
+    messageApi.open({
+      type: 'success',
+      content: 'Options Saved',
+      className: 'message'
+  
+    })   
    }
 
    const resetOption = () => {
     setOption(defaultOption)
-    browser.storage.sync.set({option:JSON.stringify(defaultOption)});
-    
+    browser.storage.sync.set({option:JSON.stringify(defaultOption)});   
    }
 
 
+   
+
 if (option) {
-  
+    
       return (
     <ConfigProvider
     theme={{
       token: {colorPrimary:"rgb(0,83,222)"}
     }}>
+      {contextHolder}
       <h2 className="int">OPTIONS</h2>
       <h3>Filter settings</h3>
       <Extension updateOption ={handleOption} def={option.extensions} />
@@ -62,9 +67,11 @@ if (option) {
     <Button onClick={saveOption} type="primary" className ="int"  >Save </Button>
     <Button onClick={resetOption} type="primary" className="int">Reset</Button>
     <Divider/>
-    <h3>About</h3>
-    <p>The size in bytes is calculated from the encrypted data if available, * from the raw data.</p>
-    <p>The date is the last date which resource web containg the image was modified if available or the most recent server response date</p>
+    <h3>Note</h3>
+    <p>The size in bytes is calculated from the encrypted data if available otherwise from the raw data(*).</p>
+    <p>The date in the image description is the last date which resource web contains the image was modified if available or the most recent server response date.
+    </p>
+    <p>Metadata are avaible only for JPG, AVIF, TIFF, WEBP, PNG file type.</p>
     <br></br>
 
     </ConfigProvider>
@@ -291,7 +298,7 @@ const Extension = ({updateOption,def}) => {
         <h4 className="option">Extension</h4>
         
       <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
-        Selected All (unknown and without data included)
+        Select All
       </Checkbox>
     </div>
 

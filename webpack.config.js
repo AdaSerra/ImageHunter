@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    mode:'development',
+  mode:'development',
   entry: {
     content: './src/content.js',
     popup: './src/popup.js',
@@ -59,7 +59,9 @@ module.exports = {
             }, 
           }
         ]
-      }
+      },
+      { test: /\.css$/, 
+        use: ['style-loader', 'css-loader'] }
     ]
   }
 };
