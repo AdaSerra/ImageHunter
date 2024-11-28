@@ -24,13 +24,10 @@ const searchEngines = {"GOOGLE": ["https://www.google.com/searchbyimage?sbisrc=4
 async function getDataFromLocalStorage(key,nameFunction,oldValue) {
     try {
       const result = await browser.storage.local.get([key]);
-        if(result && result[key]) {
-          const resParse=JSON.parse(result[key]);
-          if (resParse != oldValue) {nameFunction(resParse)};
-          
+       result? nameFunction(JSON.parse(result[key])) : null;         
         }
-     // return result? nameFunction(JSON.parse(result[key])) : null;
-    } catch (error) {
+    
+    catch (error) {
       console.error('Error local storage:', error);
     }
   }

@@ -1,8 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    mode:'production',
+    mode:'development',
   entry: {
     content: './src/content.js',
     popup: './src/popup.js',
@@ -26,10 +27,17 @@ module.exports = {
       filename: 'options.html',
       template: './src/options.html',
       chunks: ['options']
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {from: 'src/images',
+         to: 'images'
+        }
+      ]
     })
   ],
   
-  //devtool: "source-map",
+  devtool: "source-map",
   module: {
     rules: [
       {

@@ -16,10 +16,12 @@ message.config({maxCount:1})
 
 function App() {
 
-  //state for images from content.js, background, option and filtred list
-  const [imgs, setImgs] = useState(null);
+  //state for images from content.js, background, option 
   const [backreq,setBackreq] =useState(null)
   const [option, setOption] =useState(null)
+  const [imgs,setImgs] = useState(null)
+
+  //state for list,showing result, checking all imgs and loading button
   const [list,setList] =useState(null);
   const [toggle,setToggle] = useState(false)
   const [show,setShow] = useState(false)
@@ -143,7 +145,7 @@ function App() {
     
     return accumulutar},{sum:0,count:0})
 
-    let sizeTotalFilter= filterDati.reduce((accumulutar,currentValue)=>{
+    let sizeTotalFilter= filterDati?.reduce((accumulutar,currentValue)=>{
       if(Number(currentValue.backSize)|| Number(currentValue.pfSize)) {
         accumulutar.sum= accumulutar.sum + Number(currentValue.backSize || currentValue.pfSize)
         accumulutar.count +=1
@@ -272,7 +274,7 @@ function App() {
         <ButtonBox toggle={toggle} checkAll={checkAll} list={list?.filtred || []} pageInfo={list?.pageInfo || {title:"",url:"",size:0,time:0}}/></div> </> }
         </div>
         {show  && list?.filtred &&
-        <div id="list"><List dati={list?.filtred || []} engine={option.engine} updateChecked={changeChecked} messageApi={messageApi}/></div>}
+        <div id="list"><List dati={list?.filtred} engine={option.engine} updateChecked={changeChecked} messageApi={messageApi}/></div>}
         {show &&
         <FilterStats len={list.stats.imgFilter ||0 } sizeFilter={list.stats.sizeTotalFilter || {sum:0,count:0}} sizeChecked={sizeTotalChecked}/>}
        

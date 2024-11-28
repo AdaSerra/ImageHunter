@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-
 import {Image,Button,Tooltip} from 'antd'
 import {CopyOutlined,SnippetsOutlined,DownloadOutlined,CheckCircleFilled,CheckCircleOutlined,SearchOutlined,QuestionCircleOutlined} from '@ant-design/icons'
 import {copyImg,copyText,saveFile,searchLink} from '../utils/click.js'
@@ -14,7 +13,7 @@ export default function List(props) {
     const [visible, setVisible] = useState(false); 
     const [currentImage, setCurrentImage] = useState(null);
    
-    const currentList = dati.map(
+    const currentList = dati?.map(
       item =>({src:item.url,
       alt:item.text? item.text : item.alt || "",
       checked:item.checked}) )
@@ -22,8 +21,9 @@ export default function List(props) {
     const handlePreview = (src) => { 
       setCurrentImage(src); setVisible(true); };
    
-    return (
-    
+    if (dati.length > 0 ) {
+    return ( 
+      
       <ul>
         <Image.PreviewGroup items={currentList}  preview={{ 
           visible: visible,
@@ -85,7 +85,12 @@ export default function List(props) {
       </Image.PreviewGroup>
       </ul>
       
+    )}
+  else
+   {
+    return (
+      <div className='title'>No images with these options...</div>
     )
-  
+   }
   }
   
