@@ -1,6 +1,6 @@
 import React from 'react'
 import {Tooltip,Collapse} from 'antd'
-import { InfoCircleOutlined } from '@ant-design/icons'
+import { InfoCircleOutlined,CaretRightFilled } from '@ant-design/icons'
 import {shortUrl,convertBytes} from '../utils/generic.js'
 
 export default function SummaryDesc(props) {
@@ -12,21 +12,22 @@ export default function SummaryDesc(props) {
   
     const items=[{
       key:'1',
-     label:<div>Document extra info</div>,
+     label:<div className="descriptionS">Document Extra Info</div>,
+     className:'customCollapse',
        
      
       children:<div className="customCollapse">
       <div><Tooltip title='Title'>{shortUrl(pageInfo.title)}</Tooltip></div>
       { pageInfo.desc? <div className="descriptionS" ><Tooltip title='Description'>{shortUrl(pageInfo.desc)}</Tooltip></div> : <></>}  
       <div><Tooltip title='Url'>{shortUrl(pageInfo.url)}</Tooltip></div>
-      <div>Last modify: {pageInfo.lastM}</div>
-      <div>Time Analyze: {((pageInfo.time)/1000).toFixed(3)} secs</div>
+      <div>Modified:  <strong>{pageInfo.lastM}</strong></div>
+      <div>Scan Time: <strong> {((pageInfo.time)/1000).toFixed(3)} secs</strong></div>
       </div>
     }]
   
   
     return(<>
-      <Collapse items={items}  accordion={true} destroyInactivePanel={true} defaultActiveKey={[]} ghost={true} expandIconPosition='end' className="customStats" />
+      <Collapse items={items}  expandIcon={({ isActive }) =><CaretRightFilled className="descriptionS" rotate={isActive ? 90 : 0}/> } defaultActiveKey={[]}  expandIconPosition='end' className="customStats" />
       <div className="customStats">
         <div className="descriptionS">Total size (unique):   
         </div>

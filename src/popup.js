@@ -216,7 +216,7 @@ function App() {
     
         },
         components:{
-          Collapse: {headerPadding:"0px",contentPadding:"0px"},
+         Collapse: {headerPadding:"0px",contentPadding:"0px"},
           Button:{
             defaultActiveColor:"black"
           }

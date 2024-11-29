@@ -35,13 +35,13 @@ export default function List(props) {
             <div className="customRender">
             
            
-           <Button icon={<CopyOutlined  />} onClick={()=>copyImg(info.image.url,messageApi)}  color="default" variant="solid"/> 
-           <Button icon={<SnippetsOutlined  />} onClick={()=>copyText(info.image.url,messageApi)}  color="default" variant="solid"/> 
-           <Button icon ={<DownloadOutlined />} onClick = {() =>saveFile(info.image.url,'image.jpg')}  color="default" variant="solid"/>
-           <Button icon={currentList[info.current].checked? <CheckCircleFilled/> : <CheckCircleOutlined/>} onClick={()=>updateChecked(info.image.url)} color="default" variant="solid"></Button>
-           <ExifMetadata url={info.image.url}/>
-           <Button icon ={<SearchOutlined />} disabled={info.image.url.startsWith("https")? false : true} onClick = {()=>searchLink(info.image.url,engine,messageApi)}  color="default" variant="solid"/>
-           <Button icon={<QuestionCircleOutlined />} disabled={info.image.url.startsWith("https")? false : true} onClick={()=>window.open(`https://jimpl.com/?url=${encodeURIComponent(info.image.url)}`,'_blank')}  color="default" variant="solid"/>
+           <Tooltip title="Copy Image" placement="bottom" overlayInnerStyle={{fontSize : "11px"}}><Button icon={<CopyOutlined  />} onClick={()=>copyImg(info.image.url,messageApi)}  color="default" variant="solid"/></Tooltip> 
+           <Tooltip title="Copy Url"  placement="bottom" overlayInnerStyle={{fontSize : "11px"}}><Button icon={<SnippetsOutlined  />} onClick={()=>copyText(info.image.url,messageApi)}  color="default" variant="solid"/></Tooltip> 
+           <Tooltip title="Save"  placement="bottom"><Button icon ={<DownloadOutlined />} onClick = {() =>saveFile(info.image.url,'image.jpg')}  color="default" variant="solid"/></Tooltip>
+           <Tooltip title={currentList[info.current].checked? "Unselect" : "Select"}  placement="bottom"><Button icon={currentList[info.current].checked? <CheckCircleFilled/> : <CheckCircleOutlined/>} onClick={()=>updateChecked(info.image.url)} color="default" variant="solid"></Button></Tooltip>
+          <ExifMetadata url={info.image.url}/>
+           <Tooltip title={`Search with ${engine}`}  placement="bottom"><Button icon ={<SearchOutlined />} disabled={info.image.url.startsWith("https")? false : true} onClick = {()=>searchLink(info.image.url,engine,messageApi)}  color="default" variant="solid"/></Tooltip>
+           <Tooltip title="View Metadata with jimpl.com"  placement="bottom"><Button icon={<QuestionCircleOutlined />} disabled={info.image.url.startsWith("https")? false : true} onClick={()=>window.open(`https://jimpl.com/?url=${encodeURIComponent(info.image.url)}`,'_blank')}  color="default" variant="solid"/></Tooltip>
            </div>      
            
            </div> ),
