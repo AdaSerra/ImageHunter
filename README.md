@@ -18,8 +18,8 @@ This is add-on for Firefox written in JavaScrpit that allows you to find all ima
 
 ## Next steps
 
-- Make a version for Chome and other browser
-- Localize add-on throug framework like i18next
+- Make a version for Chrome and other browser
+- Localize add-on through framework like i18next
 - Improve the graphics by creating for example a custom icon
 - Make possible the reverse search also for images in base64
 - Improve reports output

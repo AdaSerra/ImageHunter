@@ -23,26 +23,48 @@ function saveFile(url,filename) {
 
   async function copyImg(url,functionMessage) {
   
-    const base64String = url.replace(/^data:.+;base64,/, ''); 
-    const img = new window.Image(); 
-    img.src = url.startsWith('http')? url: `data:image/png;base64,${base64String}`; 
+    const base64String = url.replace(/^data:.+;base64,/, '');
+    
+    const img = new Image()
+  
+    if (url.startsWith('http')) 
+      { img.src = url; } 
+
+    else if (/^data:image\/svg\+xml/.test(url)) 
+      
+      { 
+        const svgString=base64String.slice(19);
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(svgString, 'image/svg+xml');
+        const svgElement = doc.documentElement;
+        const svgData = new XMLSerializer().serializeToString(svgElement); 
+      
+        img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+        
+      }
+    else { img.src = `data:image/png;base64,${base64String}`;
+ 
+     }
+    
     img.crossOrigin = 'Anonymous'; 
     img.onload = () => { 
-      
+   
       const canvas = document.createElement('canvas'); 
       const ctx = canvas.getContext('2d'); 
       canvas.width = img.naturalWidth; 
       canvas.height = img.naturalHeight; 
       ctx.drawImage(img, 0, 0);
       canvas.toBlob(async (blob) => { 
-        const clipboardItem = new ClipboardItem({ 'image/png': blob }); 
+        let clipboardItem
+        clipboardItem = new ClipboardItem({ 'image/png': blob }); 
+        
         await navigator.clipboard.write([clipboardItem])
         .then(() => functionMessage.success("Image copied!"))
-        .catch((err) => {console.error("Error: ", err);functionMessage.error("Error in copying image")}); 
+        .catch((err) => {console.error("Error: ", err);}); 
           
         
-       })}; 
-  
+       }, 'image/png')}; 
+       img.src=img.src
       img.onerror = (error) => { console.error('Error:', error); functionMessage.error("Error in copying image") };
   }
 

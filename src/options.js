@@ -68,7 +68,8 @@ const App = () => {
         <Divider />
         <h3>Note</h3>
         <p>The size in bytes is calculated from the encrypted data if available otherwise from the raw data(*).</p>
-        <p>The date in the image description is the last date which resource web contains the image was modified if available or the most recent server response date.
+        <p>The date in the image description is the last date which resource web contains the image was modified if available  otherwise the server response date (*).
+        .
         </p>
         <p>Metadata are avaible only for JPG, AVIF, TIFF, WEBP, PNG file type.</p>
         <br></br>

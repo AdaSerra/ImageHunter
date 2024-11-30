@@ -38,7 +38,7 @@ browser.webRequest.onHeadersReceived.addListener(
       let ranges = details.responseHeaders.find(header => header.name.toLowerCase() === "accept-ranges");
       ranges ? findreq.ranges = ranges.value : "";
 
-      findreq.time = (details.timeStamp > 0 && findreq.time > 0) ? details.timeStamp - findreq.time : 0;
+      findreq.time = details.timeStamp - findreq.time < 1000_000?  details.timeStamp - findreq.time : "no data";
 
       imgcomplete.push(findreq)
       let dati = [...new Map(imgcomplete.map(item => [item.url, item])).values()]

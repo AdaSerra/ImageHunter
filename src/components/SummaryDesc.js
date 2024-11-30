@@ -1,5 +1,5 @@
 import React from 'react'
-import {Tooltip,Collapse} from 'antd'
+import {Tooltip,Collapse,Popover} from 'antd'
 import { InfoCircleOutlined,CaretRightFilled } from '@ant-design/icons'
 import {shortUrl,convertBytes} from '../utils/generic.js'
 
@@ -17,9 +17,9 @@ export default function SummaryDesc(props) {
        
      
       children:<div className="customCollapse">
-      <div><Tooltip title='Title'>{shortUrl(pageInfo.title)}</Tooltip></div>
-      { pageInfo.desc? <div className="descriptionS" ><Tooltip title='Description'>{shortUrl(pageInfo.desc)}</Tooltip></div> : <></>}  
-      <div><Tooltip title='Url'>{shortUrl(pageInfo.url)}</Tooltip></div>
+      <div><Popover title='Title' content={pageInfo.title}>{shortUrl(pageInfo.title)}</Popover></div>
+      { pageInfo.desc? <div className="descriptionS" ><Popover title='Description' content={pageInfo.desc}>{shortUrl(pageInfo.desc)}</Popover></div> : <></>}  
+      <div><Popover title='Url' content={pageInfo.url}>{shortUrl(pageInfo.url)}</Popover></div>
       <div>Modified:  <strong>{pageInfo.lastM}</strong></div>
       <div>Scan Time: <strong> {((pageInfo.time)/1000).toFixed(3)} secs</strong></div>
       </div>

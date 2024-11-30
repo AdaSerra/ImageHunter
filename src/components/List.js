@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Image,Button,Tooltip} from 'antd'
+import {Image,Button,Tooltip,Popover} from 'antd'
 import {CopyOutlined,SnippetsOutlined,DownloadOutlined,CheckCircleFilled,CheckCircleOutlined,SearchOutlined,QuestionCircleOutlined} from '@ant-design/icons'
 import {copyImg,copyText,saveFile,searchLink} from '../utils/click.js'
 import {shortUrl,fileName} from '../utils/generic.js'
@@ -50,7 +50,7 @@ export default function List(props) {
             <div >{shortUrl(fileName(currentList[info.current].src))}</div>
             {currentList[info.current].alt?.length <40 ? 
             <div > {currentList[info.current].alt} </div> :
-            <div ><Tooltip title={currentList[info.current].alt}>{shortUrl(currentList[info.current].alt)}... </Tooltip></div>
+            <div ><Popover content={currentList[info.current].alt} placement="bottom">{shortUrl(currentList[info.current].alt)} </Popover></div>
             }</div>
             {originalNode}     
             </>
