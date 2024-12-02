@@ -1,5 +1,6 @@
 //onclick functions
 import {searchEngines} from './storage.js'
+import { svgToBase64,createCanvas } from './generic.js';
 
 function saveReport(obj,filename){
     const jsonStr = JSON.stringify(obj, null, 2); 
@@ -27,19 +28,21 @@ function saveFile(url,filename) {
     
     const img = new Image()
   
-    if (url.startsWith('http')) 
-      { img.src = url; } 
 
-    else if (/^data:image\/svg\+xml/.test(url)) 
+
+    if (url.startsWith('http')) 
+      { img.src = url;
+        
+       } 
+
+
+
+    else if (url.startsWith('data:image/svg+xml,<svg')) //case url = data:image/svg+xml,<svg....</svg>
       
       { 
         const svgString=base64String.slice(19);
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(svgString, 'image/svg+xml');
-        const svgElement = doc.documentElement;
-        const svgData = new XMLSerializer().serializeToString(svgElement); 
-      
-        img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+              
+        img.src = svgToBase64(svgString) //'data:image/svg+xml;base64,' + btoa(svgData);
         
       }
     else { img.src = `data:image/png;base64,${base64String}`;
@@ -49,11 +52,7 @@ function saveFile(url,filename) {
     img.crossOrigin = 'Anonymous'; 
     img.onload = () => { 
    
-      const canvas = document.createElement('canvas'); 
-      const ctx = canvas.getContext('2d'); 
-      canvas.width = img.naturalWidth; 
-      canvas.height = img.naturalHeight; 
-      ctx.drawImage(img, 0, 0);
+      const canvas =createCanvas(img)
       canvas.toBlob(async (blob) => { 
         let clipboardItem
         clipboardItem = new ClipboardItem({ 'image/png': blob }); 
@@ -65,7 +64,7 @@ function saveFile(url,filename) {
         
        }, 'image/png')}; 
        img.src=img.src
-      img.onerror = (error) => { console.error('Error:', error); functionMessage.error("Error in copying image") };
+      img.onerror = (error) => { console.error('Error:', error);functionMessage.error("Format not supported")  };
   }
 
 async function searchLink(url,engine,functionMessage){

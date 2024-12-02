@@ -32,7 +32,7 @@
       "page": "dist/options.html"
     },
     "browser_action": {
-      "default_title": "Image Finder",
+      "default_title": "Image Hunter",
       "browser_style": true,
       "default_popup": "dist/popup.html",
 

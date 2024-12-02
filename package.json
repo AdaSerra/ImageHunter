@@ -1,7 +1,7 @@
 {
   "name": "image_hunter",
   "version": "1.0.0",
-  "description": "Addon for founding images in a webpage, save, download metadata, search similar images and more",
+  "description": "Addon for founding images in a webpage, save them, download metadata, search similar images and more",
   "main": "webpack.config.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",

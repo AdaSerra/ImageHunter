@@ -9,7 +9,7 @@ export default function ImgDesc(prop) {
         <div>Type:</div>
         <div>{item.type? item.type : 'no data'}</div>
         <div>Pixel:</div>
-        <div>{item.origW? item.origW+"x"+item.origH: ""}</div>
+        <div>{item.origW+"x"+item.origH}</div>
         <div>Size:</div>
         <div>{Number(item.backSize)? convertBytes(item.backSize) : Number(item.pfSize)? convertBytes(item.pfSize) : Number(item.blobSize)? convertBytes(item.blobSize)+"*":'no data'}</div>
         <div>Load:</div>

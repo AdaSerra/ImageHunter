@@ -89,4 +89,82 @@ function fileName(url) {
    {return url.substring(url.lastIndexOf('/') + 1); }
   else {return "base64 string"}
 }
-export {regex,convertBytes,shortExt,checkBackground,checkType,correctUrl,shortUrl,fileName}
+
+function svgToBase64(str) {
+  
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(str, 'image/svg+xml');
+  const svgElement = doc.documentElement;
+  const svgData = new XMLSerializer().serializeToString(svgElement);
+  const base64Data = btoa(svgData);
+  return `data:image/svg+xml;base64,${base64Data}`
+  
+}
+
+function base64ToBlob(base64, contentType = '', sliceSize = 512) { 
+  const byteCharacters = atob(base64); 
+  const byteArrays = []; 
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) { 
+    const slice = byteCharacters.slice(offset, offset + sliceSize); 
+    const byteNumbers = new Array(slice.length); 
+    for (let i = 0; i < slice.length; i++) { 
+      byteNumbers[i] = slice.charCodeAt(i); } 
+      const byteArray = new Uint8Array(byteNumbers); 
+      byteArrays.push(byteArray); } 
+    return new Blob(byteArrays, { type: contentType }); }
+
+function createCanvas(img) {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = img?.width || img?.width?.baseVal?.value 
+  canvas.height = img?.height || img?.height?.baseVal?.value 
+  ctx.drawImage(img, 0, 0);
+  return canvas
+}
+
+
+async function createCanvasAndGenerateBlob(imageUrl) {
+
+  let result
+  try {
+
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+
+    img.src = imageUrl;
+ 
+    await new Promise((resolve, reject) => {
+      
+      img.onload = resolve;
+      
+      img.onerror = reject;
+      
+    });
+
+    const canvas= createCanvas(img)
+
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          
+          resolve(blob);
+        } else {
+          reject(new Error('Error'));
+        }
+      });
+    });
+
+    const blobType = blob.type;
+    const blobSize = blob.size;
+
+    result = [blobType, blobSize, canvas.width, canvas.height, img.naturalWidth, img.naturalHeight];
+  } catch (err) {
+    
+    console.error('Error in blob generating:', err);
+    result = ['', ''];
+  }
+
+  return result
+}
+
+export {regex,convertBytes,shortExt,checkBackground,checkType,correctUrl,shortUrl,fileName,svgToBase64,base64ToBlob,createCanvas,createCanvasAndGenerateBlob}
