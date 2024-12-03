@@ -28,10 +28,11 @@ export default function List(props) {
         <Image.PreviewGroup items={currentList}  preview={{ 
           visible: visible,
            onVisibleChange: (vis) => setVisible(vis),
-          
+           getContainer:()=>{const root= document.getElementById('root')},
+          //rootClassName:"customRootRender",
            toolbarRender: (originalNode,info) => ( 
             
-           <div className="customToolRender"> {originalNode} 
+           <> {originalNode} 
             <div className="customRender">
             
            
@@ -44,7 +45,7 @@ export default function List(props) {
            <Tooltip title="View Metadata with jimpl.com"  placement="bottom"><Button icon={<QuestionCircleOutlined />} disabled={info.image.url.startsWith("https")? false : true} onClick={()=>window.open(`https://jimpl.com/?url=${encodeURIComponent(info.image.url)}`,'_blank')}  color="default" variant="solid"/></Tooltip>
            </div>      
            
-           </div> ),
+           </> ),
            imageRender:(originalNode,info) => (
             <><div className="customTitle">
             <div >{shortUrl(fileName(currentList[info.current].src))}</div>
@@ -65,7 +66,7 @@ export default function List(props) {
   
             
             <div className="left">
-               <Image className="customImg" src={item.url} alt={item.alt}  onClick={()=>{handlePreview(item)}} />
+               <Image width={100} height={100} className="customImg" src={item.url} alt={item.alt}  onClick={()=>{handlePreview(item)}} />
             </div>
             <div className="right">
             <div className="mask">

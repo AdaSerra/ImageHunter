@@ -7,7 +7,7 @@ This is add-on for Firefox written in JavaScrpit that allows you to find all ima
 
 ## Features
 
-- **Image Search**: Searches for all images on a web page from HTML elements with image tags, images used as backgrounds in CSS, and all images in `<picture source>` tags.
+- **Image Search**: Searches for all images on a web page from HTML elements with image tags, svg, images used as backgrounds in CSS, and all images in `<picture source>` tags.
 - **Image Data**: Image data is taken from the browser's `PerformanceResourceTiming` API and intercpeting  response headers of web requests. If nothing is found, a temporary blob object is generated to get the raw data.
 - **Exclusions**: No images are taken from `<iframe>` or `<video>` tags. The copy function for svg is a issue because the ClipboardItem Api on Firefox does not support MIME type image/svg+xml.
 - **User Interface**: Uses [React](https://react.dev/) and [Ant Design](https://ant.design/)for a modern and responsive user interface.

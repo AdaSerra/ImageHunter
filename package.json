@@ -4,7 +4,8 @@
   "description": "Addon for founding images in a webpage, save them, download metadata, search similar images and more",
   "main": "webpack.config.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build:prod": "webpack --config webpack.config.js --env production",
+    "build:dev": "webpack --config webpack.config.js",
     "firefox": "web-ext run --verbose --bc"
   },
   "keywords": [
@@ -20,7 +21,7 @@
     "storage"
   ],
   "author": "Adalberto Serra",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",

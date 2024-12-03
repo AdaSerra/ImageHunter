@@ -1,0 +1,9 @@
+{
+    "version": { "license": "MIT" } ,
+    "categories": { "firefox": ["search-tools", "photos-music-videos"] },
+    "summary": {
+        "en-Us": "Searches for all images on a web page, save them, search with Google and more."
+    },
+    "requires_payment": false
+
+  }

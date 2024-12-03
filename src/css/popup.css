@@ -63,6 +63,16 @@ body {
    
     
 }
+.customToolRender{
+    width:1500px;
+    height:1500px;
+    
+    
+    
+
+    
+}
+
 
 .customCollapse {
     display: flex;
@@ -167,11 +177,11 @@ body {
     background-color: black !important
 }
 
-.customImg {
+.customImg,.customImg:before {
     border: 1px solid black;
     background-color: white;
-    min-height: 100px;
-    min-width: 100px;
+    height: 100px!important;
+    width: 100px !important;
     object-fit: contain;
     margin: 0;
     padding: 0;
@@ -187,6 +197,7 @@ body {
     align-items: center;
     width: 100%;
     opacity: 1;
+    
 }
 
 .customTitle {
