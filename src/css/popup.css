@@ -9,7 +9,7 @@ body {
     box-sizing: border-box;
     min-height: 140px;
     white-space: nowrap;
-
+    height: fit-content(1000px);
 }
 
 
@@ -64,8 +64,8 @@ body {
     
 }
 .customToolRender{
-    width:1500px;
-    height:1500px;
+    width:1800px;
+    height:1800px;
     
     
     
@@ -73,7 +73,10 @@ body {
     
 }
 
-
+.customRootRender{
+    width: 1000px;
+    height:1000px
+}
 .customCollapse {
     display: flex;
     position:relative;
@@ -136,7 +139,8 @@ body {
     top: 260px;
     overflow: hidden;
     min-height: 380px;
-    width: 100%
+    width: 100%;
+    max-height: max-content
 }
 
 

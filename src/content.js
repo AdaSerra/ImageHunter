@@ -93,7 +93,7 @@ async function findImage() {
   const pictureElements = document.querySelectorAll('picture source');
 
   pictureElements.forEach(element => {
-    console.log("Element: ", element)
+    
     const srcset = element.getAttribute('srcset');
     if (srcset) {
 

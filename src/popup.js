@@ -29,11 +29,15 @@ function App() {
  
   const [messageApi, contextHolder] = message.useMessage();
 
-  const changeChecked =(url)=>{
-    
-    setList({...list,
-      filtred:list.filtred.map(item=>item.url==url ? {...item, checked:!item.checked} : item)});
-      list.filtred.some(item => item.url === url && item.checked) ? messageApi.info("Image unselected!") : message.info("Image selected");
+
+  //put image in selected and toggle all images
+
+  const changeChecked =(index)=>{
+       setList({
+        ...list,
+        filtred:list.filtred.map((item,i)=> index==i ? {...item,checked:!item.checked} :item)})
+     
+      list.filtred[index].checked ? messageApi.info("Image unselected!") : message.info("Image selected")  
   }
 
   const checkAll = () =>{
@@ -47,10 +51,7 @@ function App() {
    
   }
   
- 
-
   //useEffect initial state and handling change
-
   
   useEffect(() => { 
     getDataFromLocalStorage('imgs',setImgs,imgs)
@@ -85,14 +86,13 @@ function App() {
     return() => browser.storage.onChanged.removeListener(wrapHandleStorage('sync','option',setOption))
   },[])
 
+
   //managing array imgs founded, background request info added end data filtred from options preferences 
   
   useEffect(()=>{
     getDataFromLocalStorage('backreq',setBackreq,backreq);
     
-
   if (imgs && backreq && option) {
-    
     
     let imgsUnique = [...new Map(imgs.imgs.map(item => [item.url, item])).values()]
     
@@ -100,8 +100,6 @@ function App() {
       
       let result =checkBackground(item.url,backreq);
       
-     
-
       return {
         ...item,
         url: regex['end'].test(item.url)? item.url : correctUrl(item.url) ,
@@ -160,12 +158,9 @@ function App() {
   useEffect(()=>{
     if (list) {setShow(true)}
   },[list])
-
-
    
 
-  //some stats
-    
+  //some stats 
 
     let sizeTotal= list?.unfiltred.reduce((accumulutar,currentValue)=>{
     if(Number(currentValue.backSize)|| Number(currentValue.pfSize)) {
@@ -182,8 +177,6 @@ function App() {
       }
       
       return accumulutar},{sum:0,count:0})
-  
-
 
     let avgLoading= list?.unfiltred.reduce((accumulutar,currentValue)=>{
       if(Number(currentValue.backDuration) && currentValue.backDuration < 1000_000) {
@@ -192,8 +185,7 @@ function App() {
       }
       
       return accumulutar},{sum:0,count:0})
-  
-     
+   
     let sizeTotalChecked = list?.filtred?.reduce((acc, item) => {
       if (item.checked) {
         acc.size += Number(item.backSize) || Number(item.pfSize) || Number(item.blobSize) || 0;
@@ -205,7 +197,6 @@ function App() {
     
        
     //final rendering
-
 
     return (
       <ConfigProvider 
