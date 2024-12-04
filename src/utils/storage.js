@@ -21,7 +21,7 @@ const searchEngines = {"GOOGLE": ["https://www.google.com/searchbyimage?sbisrc=4
    }
 
 
-async function getDataFromLocalStorage(key,nameFunction,oldValue) {
+async function getDataFromLocalStorage(key,nameFunction) {
     try {
       const result = await browser.storage.local.get([key]);
        result? nameFunction(JSON.parse(result[key])) : null;         

@@ -16,10 +16,10 @@ message.config({maxCount:1})
 
 function App() {
 
-  //state for images from content.js, background, option 
-  const [backreq,setBackreq] =useState(null)
+  //state for storage fro, background, option and content scripts
+  const [back,setBack] =useState(null)
   const [option, setOption] =useState(null)
-  const [imgs,setImgs] = useState(null)
+  const [content,setContent] = useState(null)
 
   //state for list,showing result, checking all imgs and loading button
   const [list,setList] =useState(null);
@@ -32,45 +32,62 @@ function App() {
 
   //put image in selected and toggle all images
 
-  const changeChecked =(index)=>{
-       setList({
-        ...list,
-        filtred:list.filtred.map((item,i)=> index==i ? {...item,checked:!item.checked} :item)})
-     
-      list.filtred[index].checked ? messageApi.info("Image unselected!") : message.info("Image selected")  
-  }
+ 
+  const changeChecked = (index) => {
+        setList((prevList) => {
+          const newList = {
+            ...prevList,
+            filtred: prevList.filtred.map((item, i) => 
+              index === i ? { ...item, checked: !item.checked } : item
+            )
+          };
+      
+          newList.filtred[index].checked ? messageApi.info("Image selected!") : message.info("Image unselected");
+      
+          chrome.storage.local.set({ list: JSON.stringify(newList) });
+      
+          return newList;
+        });
+      };
+      
+    const checkAll = () => {
+        setList((prevList) => {
+          const newList = {
+            ...prevList,
+            filtred:list.filtred.map(item=> ({...item, checked:!toggle }))
+          };
+      
+          setToggle(!toggle);
+          toggle? messageApi.info("All images unselected!") : message.info("All images selected!")
+      
+          chrome.storage.local.set({ list: JSON.stringify(newList) });
+      
+          return newList;
+        });
+      };
 
-  const checkAll = () =>{
-    
-    setList({...list,
-      filtred:list.filtred.map(item=> ({...item, checked:!toggle }))
-    });
-   
-    setToggle(!toggle);
-    toggle? messageApi.info("All images unselected!") : message.info("All images selected!")
-   
-  }
-  
+
+
   //useEffect initial state and handling change
   
   useEffect(() => { 
-    getDataFromLocalStorage('imgs',setImgs,imgs)
+    getDataFromLocalStorage('content',setContent,content)
 
-    browser.storage.onChanged.addListener(wrapHandleStorage('local','imgs',setImgs));
+    browser.storage.onChanged.addListener(wrapHandleStorage('local','content',setContent));
     
     return () => {
-      browser.storage.onChanged.removeListener(wrapHandleStorage('local','imgs',setImgs))
+      browser.storage.onChanged.removeListener(wrapHandleStorage('local','content',setContent))
     }
   
   },   
     []);
   
   useEffect(() => { 
-    getDataFromLocalStorage('backreq',setBackreq,backreq)
+    getDataFromLocalStorage('back',setBack,back)
     
-    browser.storage.onChanged.addListener(wrapHandleStorage('local','backreq',setBackreq));
+    browser.storage.onChanged.addListener(wrapHandleStorage('local','back',setBack));
     return () => {
-      browser.storage.onChanged.removeListener(wrapHandleStorage('local','backreq',setBackreq))
+      browser.storage.onChanged.removeListener(wrapHandleStorage('local','back',setBack))
     }
    }, 
       []);
@@ -88,17 +105,22 @@ function App() {
 
 
   //managing array imgs founded, background request info added end data filtred from options preferences 
+
+  useEffect(()=>{
+    getDataFromLocalStorage('list',setList,list);
+   
+  },[])
   
   useEffect(()=>{
-    getDataFromLocalStorage('backreq',setBackreq,backreq);
+    getDataFromLocalStorage('back',setBack,back);
     
-  if (imgs && backreq && option) {
+  if (!list && content && back && option) {
     
-    let imgsUnique = [...new Map(imgs.imgs.map(item => [item.url, item])).values()]
+    let imgsUnique = [...new Map(content.imgs.map(item => [item.url, item])).values()]
     
     let dati = imgsUnique.map(item => {
       
-      let result =checkBackground(item.url,backreq);
+      let result =checkBackground(item.url,back);
       
       return {
         ...item,
@@ -136,12 +158,12 @@ function App() {
   
     setList({
       pageInfo:{
-        title:imgs.title,
-        url:imgs.url,
-        desc:imgs.desc,
-        time:imgs.time,
-        size:imgs.size,
-        lastM:imgs.lastM
+        title:content.title,
+        url:content.url,
+        desc:content.desc,
+        time:content.time,
+        size:content.size,
+        lastM:content.lastM
 
       },
       unfiltred:dati,
@@ -149,16 +171,19 @@ function App() {
      });
       
       setLoading(false)
-      
+      chrome.storage.local.set({ list: JSON.stringify(list) })
    
     }
-  } ,[imgs,option])
+  } ,[content,option])
 
 
   useEffect(()=>{
     if (list) {setShow(true)}
   },[list])
    
+  useEffect(()=>{
+    list?.filtred.every(item =>item.checked ===true) ? setToggle(true) : setToggle(false)
+  },[list])
 
   //some stats 
 
@@ -218,9 +243,9 @@ function App() {
       {contextHolder}
      
         <div className="summary">
-          <Summary total={imgs?.imgs.length} unique={list?.unfiltred?.length}/>
+          <Summary total={content?.imgs.length} unique={list?.unfiltred?.length}/>
           <div className="buttonBox">
-            <div className='left'> <Button type="primary"  onClick={()=>{setLoading(true);sendMessage('start')}} block={true} loading={loading}danger>{loading? "Loading":"Analyze"}</Button></div>
+            <div className='left'> <Button type="primary"  onClick={()=>{setLoading(true);sendMessage('start');setList(null)}} block={true} loading={loading}danger>{loading? "Loading":"Analyze"}</Button></div>
             <div className='right'> <Button type="primary"   block={true}disabled={list?false:true } onClick={list?()=>setShow(prevValue=>!prevValue):null}>{show? "Hide" : "Show"} </Button></div>
           </div>
 
@@ -230,9 +255,9 @@ function App() {
         <ButtonBox toggle={toggle} checkAll={checkAll} list={list?.filtred || []} pageInfo={list?.pageInfo || {title:"",url:"",size:0,time:0}}/></div> </> }
         </div>
         {show  && list?.filtred &&
-        <div id="list"><List dati={list?.filtred} engine={option.engine} updateChecked={changeChecked} messageApi={messageApi}/></div>}
+        <div id="list"><List dati={list?.filtred} engine={option?.engine} updateChecked={changeChecked} messageApi={messageApi}/></div>}
         {show &&
-        <FilterStats len={list?.filtred?.length ||0 } sizeFilter={sizeTotalFilter || {sum:0,count:0}} sizeChecked={sizeTotalChecked}/>}
+        <FilterStats len={list?.filtred?.length ||0 } sizeFilter={sizeTotalFilter || {sum:0,count:0}} sizeChecked={sizeTotalChecked|| {sum:0,count:0}}/>}
        
       </ConfigProvider>
     )

@@ -1,4 +1,4 @@
-//onclick functions
+//onclick functions that not change state of component
 import {searchEngines} from './storage.js'
 import { svgToBase64,createCanvas } from './generic.js';
 

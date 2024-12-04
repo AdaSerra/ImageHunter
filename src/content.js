@@ -183,7 +183,7 @@ async function findImage() {
   pageInfo.imgs = totalfound
   pageInfo.time = Date.now() - pageInfo.time
 
-  chrome.storage.local.set({ imgs: JSON.stringify(pageInfo) })
+  chrome.storage.local.set({ content: JSON.stringify(pageInfo) })
 
 
 }

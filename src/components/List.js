@@ -23,7 +23,8 @@ export default function List(props) {
       setCurrentImage(src); setVisible(true); };
 
     const handleImageError = (index) => { setErr((prev) => [...prev, index]); };
-   
+
+       
     if (dati.length > 0 ) {
     return ( 
       
@@ -40,13 +41,13 @@ export default function List(props) {
             <div className="customRender">
             
            
-           <Tooltip title="Copy Image" placement="bottom" overlayInnerStyle={{fontSize : "11px"}}><Button icon={<CopyOutlined  />} onClick={()=>copyImg(info.image.url,messageApi)}  color="default" variant="solid"/></Tooltip> 
-           <Tooltip title="Copy Url"  placement="bottom" overlayInnerStyle={{fontSize : "11px"}}><Button icon={<SnippetsOutlined  />} onClick={()=>copyText(info.image.url,messageApi)}  color="default" variant="solid"/></Tooltip> 
-           <Tooltip title="Save"  placement="bottom"><Button icon ={<DownloadOutlined />} onClick = {() =>saveFile(info.image.url,'image.jpg')}  color="default" variant="solid"/></Tooltip>
-           <Tooltip title={currentList[info.current].checked? "Unselect" : "Select"}  placement="bottom"><Button icon={currentList[info.current].checked? <CheckCircleFilled/> : <CheckCircleOutlined/>} onClick={()=>updateChecked(info.current)} color="default" variant="solid"></Button></Tooltip>
+           <Tooltip title="Copy Image" placement="bottom"  overlayClassName='customTooltip'><Button icon={<CopyOutlined  />} onClick={()=>copyImg(info.image.url,messageApi)}  color="default" variant="solid"/></Tooltip> 
+           <Tooltip title="Copy Url"  placement="bottom"   overlayClassName='customTooltip'><Button icon={<SnippetsOutlined  />} onClick={()=>copyText(info.image.url,messageApi)}  color="default" variant="solid"/></Tooltip> 
+           <Tooltip title="Save"  placement="bottom"   overlayClassName='customTooltip'><Button icon ={<DownloadOutlined />} onClick = {() =>saveFile(info.image.url,'image.jpg')}  color="default" variant="solid"/></Tooltip>
+           <Tooltip title={currentList[info.current].checked? "Unselect" : "Select"}  placement="bottom"  overlayClassName='customTooltip'><Button icon={currentList[info.current].checked? <CheckCircleFilled/> : <CheckCircleOutlined/>} onClick={()=>updateChecked(info.current)} color="default" variant="solid"></Button></Tooltip>
           <ExifMetadata url={info.image.url}/>
-           <Tooltip title={`Search with ${engine}`}  placement="bottom"><Button icon ={<SearchOutlined />} disabled={info.image.url.startsWith("https")? false : true} onClick = {()=>searchLink(info.image.url,engine,messageApi)}  color="default" variant="solid"/></Tooltip>
-           <Tooltip title="View Metadata with jimpl.com"  placement="bottom"><Button icon={<QuestionCircleOutlined />} disabled={info.image.url.startsWith("https")? false : true} onClick={()=>window.open(`https://jimpl.com/?url=${encodeURIComponent(info.image.url)}`,'_blank')}  color="default" variant="solid"/></Tooltip>
+           <Tooltip title={`Search with ${engine}`}   overlayClassName='customTooltip' placement="bottom"><Button icon ={<SearchOutlined />} disabled={info.image.url.startsWith("https")? false : true} onClick = {()=>searchLink(info.image.url,engine,messageApi)}  color="default" variant="solid"/></Tooltip>
+           <Tooltip title="View Metadata with jimpl.com"  placement="bottom"  overlayClassName='customTooltip'><Button icon={<QuestionCircleOutlined />} disabled={info.image.url.startsWith("https")? false : true} onClick={()=>window.open(`https://jimpl.com/?url=${encodeURIComponent(info.image.url)}`,'_blank')}  color="default" variant="solid"/></Tooltip>
            </div>      
            
            </> ),
@@ -75,9 +76,9 @@ export default function List(props) {
             <div className="right">
             <div className="mask">
               
-              <Tooltip title={item.checked? "Unselect" : "Select"} placement='left' overlayInnerStyle={{fontSize : "11px"}}><Button icon={item.checked? <CheckCircleFilled/> : <CheckCircleOutlined/>} className="customButton" onClick={()=>updateChecked(index)}></Button></Tooltip>
-              <Tooltip title={`Search with ${engine}`} placement='left' overlayInnerStyle={{fontSize : "11px"}}><Button icon={<SearchOutlined/> } disabled={item.url.startsWith("https")? false : true} className="customButton" onClick={()=>searchLink(item.url,engine,messageApi)}/></Tooltip>
-              <Tooltip title="Save" placement='left' overlayInnerStyle={{fontSize : "11px"}}><Button icon={<DownloadOutlined/> } className="customButton" onClick={()=>saveFile(item.url,'image.jpg')}/></Tooltip>
+              <Tooltip title={item.checked? "Unselect" : "Select"} arrow={false} placement='left' overlayInnerStyle={{fontSize : "11px"}}><Button icon={item.checked? <CheckCircleFilled/> : <CheckCircleOutlined/>} className="customButton" onClick={()=>updateChecked(index)}></Button></Tooltip>
+              <Tooltip title={`Search with ${engine}`} arrow={false} placement='left' overlayInnerStyle={{fontSize : "11px"}}><Button icon={<SearchOutlined/> } disabled={item.url.startsWith("https")? false : true} className="customButton" onClick={()=>searchLink(item.url,engine,messageApi)}/></Tooltip>
+              <Tooltip title="Save" placement='left' arrow={false} overlayInnerStyle={{fontSize : "11px"}}><Button icon={<DownloadOutlined/> } className="customButton" onClick={()=>saveFile(item.url,'image.jpg')}/></Tooltip>
               
             </div>
               <ImgDesc item={item} />

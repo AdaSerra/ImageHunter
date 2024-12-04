@@ -16,6 +16,13 @@ This is add-on for Firefox written in JavaScrpit that allows you to find all ima
 - **Report**: It is possible to download a summary report of the image or a summary of all the images on the web page.
 - **Filters**: From the options menu you can filter the images to be displayed based on file extension, size in pixels and bytes, and choose your preferred image search engine.
 
+## Screenshoots
+
+<img src="./screenshoots/example1.jpg" width="600" height="350">
+<img src="./screenshoots/example2.jpg" width="600" height="350">
+<img src="./screenshoots/example4.jpg" width="600" height="350">
+<img src="./screenshoots/example5.jpg" width="600" height="350">
+
 ## Next steps
 - Improve handling of svg 
 - Make a version for Chrome and other browser

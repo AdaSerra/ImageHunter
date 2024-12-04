@@ -44,7 +44,7 @@ browser.webRequest.onHeadersReceived.addListener(
       let dati = [...new Map(imgcomplete.map(item => [item.url, item])).values()]
 
 
-      chrome.storage.local.set({ backreq: JSON.stringify(dati) })
+      chrome.storage.local.set({ back: JSON.stringify(dati) })
 
     }
 

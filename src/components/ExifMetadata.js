@@ -48,7 +48,7 @@ export default function ExifMetadata(prop) {
          } 
     }
     return ( <> 
-    <Tooltip title="View Metadata" placement='bottom'><Button icon={<FileSearchOutlined /> } onClick={showModal} variant="solid" color="default"/></Tooltip>
+    <Tooltip title="View Metadata" placement='bottom' overlayClassName='customTooltip'><Button icon={<FileSearchOutlined /> } onClick={showModal} variant="solid" color="default"/></Tooltip>
     <Modal className="exif" title={"EXIF Metadata of: "+fileName(url).slice(0,30)} open={isModalOpen.open} onOk={handleOk} onCancel={handleCancel} getContainer={()=>document.getElementById('root')} zIndex={1100} closable={false}style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', overflowX: 'hidden' }} footer={[
       <Tooltip title='Save Report'><Button type='primary' className="customButton" icon={<SaveOutlined/>}onClick={()=>saveReport(report,'ExifMetadata.json')}></Button></Tooltip>,
       <Button type='primary' className="customButton" icon={<CloseOutlined/>}onClick={()=>setIsModalOpen(pre=>({...pre,open:false}))}></Button>
