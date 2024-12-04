@@ -269,9 +269,6 @@ const SizePixel = ({ updateOption, width, height }) => {
         <div className="option">Same value  </div><Switch checked={synced} onChange={toggleSync} size="small" />
       </div>
 
-
-
-
     </>
   )
 
@@ -294,11 +291,11 @@ const Extension = ({ updateOption, def }) => {
   const indeterminate = checkedList.length > 0 && checkedList.length < defaultOption.extensions.length;
 
   const onChange = (list) => {
-    // setCheckedList(list);
+   
     updateOption(list, "extensions")
   };
   const onCheckAllChange = (e) => {
-    // setCheckedList(e.target.checked ? defaultOption.extensions : []);
+    
     updateOption(e.target.checked ? defaultOption.extensions : [], "extensions")
       ;
   };
@@ -320,16 +317,6 @@ const Extension = ({ updateOption, def }) => {
     </>
   );
 };
-
-
-
-
-
-
-
-
-
-
 
 
 

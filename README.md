@@ -18,10 +18,10 @@ This is add-on for Firefox written in JavaScrpit that allows you to find all ima
 
 ## Screenshoots
 
-<img src="./screenshoots/example1.jpg" width="600" height="350">
-<img src="./screenshoots/example2.jpg" width="600" height="350">
-<img src="./screenshoots/example4.jpg" width="600" height="350">
-<img src="./screenshoots/example5.jpg" width="600" height="350">
+<img src="./screenshoots/example1.jpg" width="400" height="225">
+<img src="./screenshoots/example2.jpg" width="400" height="225">
+<img src="./screenshoots/example4.jpg" width="400" height="225">
+<img src="./screenshoots/example5.jpg" width="400" height="225">
 
 ## Next steps
 - Improve handling of svg 
