@@ -2,9 +2,9 @@
 
 const defaultOption= {
     extensions:["ALL","avif","bmp", "gif", "ico", "jpg", "png", "svg", "tiff", "webp"],
-    width:2500,
-    height:2500,
-    size:1024*1024,
+    width:[0,2500],
+    height:[0,2500],
+    size:[0,1024*1024],
     engine:"GOOGLE LENS"
    
   };

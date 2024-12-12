@@ -146,14 +146,31 @@ function App() {
     let filterDati= option.extensions[0] ==="ALL" ? dati : dati.filter(obj=>
       option.extensions.some(str=>obj.type.includes(str)))
     
+    if (option.width[0] == 0 && option.width[1] ==2500) {}
+    else if (option.width[1] == 2500) {filterDati=filterDati.filter(obj => option.width[0] <= obj.origW)}
+    else {filterDati=filterDati.filter(obj => option.width[0] <= obj.origW && obj.origW <=option.width[1])}
     
-    filterDati=option.width == 2500 ? filterDati: filterDati.filter(obj => obj.origW <= option.width) 
+    if (option.height[0] == 0 && option.height[1] ==2500) {}
+    else if (option.height[1] == 2500) {filterDati=filterDati.filter(obj => option.height[0] <= obj.origW)}
+    else {filterDati=filterDati.filter(obj => option.height[0] <= obj.origW && obj.origW <=option.height[1])}
     
-    filterDati= option.height ==2500 ? filterDati: filterDati.filter(obj => obj.origH <= option.height)
-  
+      
+    if(option.size[0] == 0 && (option.size[1] == 1024 || option.size[1] ==1024*1024 || option.size[1] ==1024*1024*1024))  
+    {filterDati=filterDati}
+    
+    else if (option.size[1] == 1024 || option.size[1] ==1024*1024 || option.size[1] ==1024*1024*1024)
+    {filterDati=filterDati.filter(obj=>{
+      const pfIsNumber = typeof obj.pfSize =='number' && option.size[0] < obj.pfSize; 
+      const bcIsNumber = typeof obj.backSize == 'number'  && option.size[0] < obj.backSize; 
+      const blIsNumber = typeof obj.blobSize == 'number'  && option.size[0] < obj.blobSize; 
+      return pfIsNumber || bcIsNumber || blIsNumber})}
+    else 
+    {filterDati=filterDati.filter(obj => {
+      const pfIsNumber = typeof obj.pfSize =='number' && option.size[0] < obj.pfSize && obj.pfSize<option.size[1] ; 
+      const bcIsNumber = typeof obj.backSize == 'number'  && option.size[0] < obj.backSize && obj.backSize < option.size[1]; 
+      const blIsNumber = typeof obj.blobSize == 'number'  && option.size[0] < obj.blobSize && obj.blobSize < option.size[1]; 
+      return pfIsNumber || bcIsNumber || blIsNumber})}
 
-    filterDati = option.size == 1024 || option.size ==1024*1024 || option.size ==1024*1024*1024 ? filterDati :
-    filterDati.filter(obj => {const pfIsNumber = typeof obj.pfSize =='number' && obj.pfSize<option.size; const bcIsNumber = typeof obj.backSize == 'number' && obj.backSize < option.size; const blIsNumber = typeof obj.blobSize == 'number' && obj.blobSize < option.size; return pfIsNumber || bcIsNumber || blIsNumber})
   
   
     setList({

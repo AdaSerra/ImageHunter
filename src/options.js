@@ -31,9 +31,10 @@ const App = () => {
   const saveOption = () => {
     setOption(option)
     browser.storage.sync.set({ option: JSON.stringify(option) });
+   
     messageApi.open({
       type: 'success',
-      content: 'Options Saved',
+      content: 'Options Saved ',
       className: 'message'
 
     })
@@ -89,7 +90,12 @@ const SizeBytes = ({ updateOption, size }) => {
   }
 
   const getDefSize = (size) => {
-    return size > 1024 * 1024 ? size / 1024 / 1024 : size > 1024 ? size / 1024 : size
+    if (size[1] > 1024*1024)
+      {return [size[0]/1024/1024,size[1]/1024/1024]}
+    else if (size[1] > 1024) 
+      {return [size[0]/1024,size[1]/1024]}
+    else {return size}
+   
   }
 
 
@@ -98,31 +104,45 @@ const SizeBytes = ({ updateOption, size }) => {
 
   useEffect(() => {
     setValue(getDefSize(size))
+    
   }, [size])
 
   useEffect(() => {
-    setUnit(getDefUnit(size))
+    setUnit(getDefUnit(size[1]))
   }, [size])
 
 
   const handleSliderChange = (newValue) => {
-
-
+   let updValue=[...value]
+    
     switch (unit) {
       case units[2]:
-        updateOption((newValue * 1024 * 1024), "size");
-        break;
+        updValue=[newValue[0]*1024*1024,newValue[1]*1024*1024];
+        break
       case units[1]:
-        updateOption(newValue * 1024, "size");
-        break;
+        updValue=[newValue[0]*1024,newValue[1]*1024];
+        break
       default:
-        updateOption(newValue, "size")
+        updValue=[newValue[0],newValue[1]]      
     }
-
+   
+    updateOption(updValue,"size")
   }
 
   const handleRadioChange = (e) => {
-    setUnit(e.target.value)
+    //setUnit(e.target.value)
+
+    switch (e.target.value) {
+      case units[2]: 
+        updateOption([value[0]*1024*1024,value[1]*1024*1024],"size");
+        break
+      case units[1]:
+        updateOption([value[0]*1024,value[1]*1024],"size");
+        break
+      default: 
+        updateOption([value[0],value[1]],"size")
+    }
+
   }
 
   const assignvalue = (string) => {
@@ -164,7 +184,7 @@ const SizeBytes = ({ updateOption, size }) => {
     <><Divider />
       <div className="left">
         <h4 className="option">Size in {unit}</h4>
-        <Slider className="customSlider" value={value} onChange={handleSliderChange} step={10} max={1024} marks={marks} />
+        <Slider range className="customSlider" value={value} onChange={handleSliderChange} step={10} min={0} max={1024} marks={marks} />
       </div>
       <div className="left">
         <h4 className="option">Unit</h4>
@@ -217,6 +237,7 @@ const SizePixel = ({ updateOption, width, height }) => {
   }, [height])
 
   const handleSliderChange1 = (newValue) => {
+    
     if (synced) {
 
       updateOption(newValue, "width");
@@ -257,12 +278,12 @@ const SizePixel = ({ updateOption, width, height }) => {
       <Divider />
       <div className="left">
         <h4 className="option">Width px  </h4>
-        <Slider className="customSlider" max={2500} step={20} marks={marks} value={value1} onChange={handleSliderChange1} />
+        <Slider range className="customSlider" min={0} max={2500} step={20} marks={marks} value={value1} onChange={handleSliderChange1} />
       </div>
 
       <div className="left">
         <h4 className="option">Height px   </h4>
-        <Slider className="customSlider" max={2500} step={20} marks={marks} value={value2} onChange={handleSliderChange2} />
+        <Slider range className="customSlider" max={2500} step={20} marks={marks} value={value2} onChange={handleSliderChange2} />
       </div>
 
       <div className="left">
