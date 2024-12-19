@@ -31,3 +31,12 @@ This is add-on for Firefox written in JavaScrpit that allows you to find all ima
 - Make possible the reverse search also for images in base64
 - Improve reports output
 
+ ## Testing
+
+Clone this repository
+```
+npm install
+npm run build:dev
+npm run firefox
+``` 
+or [Download from here](https://addons.mozilla.org/it/firefox/addon/image-hunter/)

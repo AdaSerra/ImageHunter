@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Image Hunter",
-    "version": "1.0",
+    "version": "1.1",
     "description": "Find all images in a webpage",
     "permissions": [
       "activeTab",
